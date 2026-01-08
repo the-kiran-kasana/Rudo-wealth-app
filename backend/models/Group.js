@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const memberSchema = new mongoose.Schema(
-  {
+const memberSchema = new mongoose.Schema({
+
     uid: {type: String, required: true,},
     email: {type: String,required: true,},
     name: { type: String, },
@@ -16,12 +16,13 @@ const memberSchema = new mongoose.Schema(
 const groupSchema = new mongoose.Schema(
   {
     name: { type: String,required: true, trim: true, },
-    typeIs: {type: String,enum: ["trip", "home", "couple"], required: true,},
+    type: {type: String,enum: ["trip", "home", "couple"], required: true,},
     createdBy: { type: String,  required: true,},
     members: { type: [memberSchema], required: true,},
   },
   { timestamps: true }
 );
+
 
 
 
