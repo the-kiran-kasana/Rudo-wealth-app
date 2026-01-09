@@ -9,6 +9,8 @@ const LoginSignup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_API_URL;
+
 
   // Google Login
   const handleGoogleLogin = async () => {
@@ -33,7 +35,7 @@ const LoginSignup = () => {
 const sendTokenToBackend = async () => {
   try {
     const token = await auth.currentUser.getIdToken();
-    const res = await axios.get("http://localhost:8000/api/profile", {
+    const res = await axios.get(`${API}/api/profile`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

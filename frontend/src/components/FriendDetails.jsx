@@ -8,6 +8,7 @@ export default function FriendDetails({ friend }) {
 
   const [expenses, setExpenses] = useState([]);
   const [balance, setBalance] = useState(0);
+    const API = import.meta.env.VITE_API_URL;
 
   console.log(friend);
 
@@ -18,7 +19,7 @@ export default function FriendDetails({ friend }) {
   const fetchFriendExpenses = async (friend) => {
     const token = localStorage.getItem("token");
 
-      const res = await axios.get(`http://localhost:8000/group/friend/expenses?email=${friend}`,{
+      const res = await axios.get(`${API}/group/friend/expenses?email=${friend}`,{
           headers: { Authorization: `Bearer ${token}`,},
         });
      console.log(res.data)

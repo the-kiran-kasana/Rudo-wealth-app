@@ -6,7 +6,7 @@ export default function GroupSection({ showForm, setShowForm }) {
   const [groupType, setGroupType] = useState("");
   const [members, setMembers] = useState([{ email: "" }]);
   const [loading, setLoading] = useState(false);
-
+    const API = import.meta.env.VITE_API_URL;
   const addMember = () => {
     setMembers([...members, {email: "" }]);
   };

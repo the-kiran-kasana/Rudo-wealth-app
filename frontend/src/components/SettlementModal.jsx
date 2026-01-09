@@ -4,6 +4,7 @@ import api from "../api/axiosInstance";
 export default function SettlementModal({ balance, onClose, refresh }) {
   const [amount, setAmount] = useState(balance.amount);
   const [loading, setLoading] = useState(false);
+    const API = import.meta.env.VITE_API_URL;
 
   const payNow = async () => {
     setLoading(true);

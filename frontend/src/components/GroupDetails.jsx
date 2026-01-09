@@ -8,6 +8,7 @@ export default function GroupDetails({ group }) {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showExpense, setShowExpense] = useState(false);
+    const API = import.meta.env.VITE_API_URL;
 
 
   const fetchGroupExpenses = async () => {
@@ -15,7 +16,7 @@ export default function GroupDetails({ group }) {
       setLoading(true);
       const token = localStorage.getItem("token");
 
-      const res = await axios.get( `http://localhost:8000/group/${group._id}`, {
+      const res = await axios.get( `${API}/group/${group._id}`, {
           headers: { Authorization: `Bearer ${token}`, },
         } );
 

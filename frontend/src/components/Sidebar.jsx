@@ -5,6 +5,7 @@ import {UserRound, Users,Handshake} from "lucide-react"
 export default function Sidebar({ onGroupSelect, onFriendSelect }) {
     const [groups, setGroups] = useState([]);
     const [friends, setFriends] = useState([]);
+      const API = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
       fetchGroups();
@@ -14,7 +15,7 @@ export default function Sidebar({ onGroupSelect, onFriendSelect }) {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get( "http://localhost:8000/group/getGroup",{
+        const res = await axios.get( `${API}/group/getGroup`,{
             headers: { Authorization: `Bearer ${token}`,},
           });
 
