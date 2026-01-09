@@ -4,6 +4,7 @@ import LoginSignup from "./pages/LoginSignup"
 import {Routes , Route, Navigate} from "react-router-dom"
 import Dashboard from "./pages/Dashboard"
 
+
 function PrivateRoute({ children }) {
   const token = localStorage.getItem("token");
 

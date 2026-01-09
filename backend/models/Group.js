@@ -1,13 +1,16 @@
 const mongoose = require("mongoose");
 
-const memberSchema = new mongoose.Schema({
-
-    uid: {type: String, required: true,},
-    email: {type: String,required: true,},
-    name: { type: String, },
-    role: { type: String, enum: ["admin", "member"],default: "member",},
-    balance : {type : Number},
-
+const memberSchema = new mongoose.Schema(
+  {
+    uid: { type: String, default: null },
+    email: { type: String, required: true },
+    name: { type: String },
+    role: {
+      type: String,
+      enum: ["admin", "member"],
+      default: "member",
+    },
+    balance: { type: Number, default: 0 },
   },
   { _id: false }
 );
