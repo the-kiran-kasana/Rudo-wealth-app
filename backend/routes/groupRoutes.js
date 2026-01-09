@@ -65,4 +65,41 @@ groupRoutes.get("/getGroup", firebaseAuth, async (req, res) => {
 
 
 
+groupRoutes.get("/:groupId", firebaseAuth, async (req, res) => {
+  const { groupId } = req.params;
+  const { uid } = req.user;
+
+  const group = await groupModel.findOne({
+    _id: groupId,
+    "members.uid": uid,
+  });
+
+  if (!group) return res.status(403).json({ message: "Access denied" });
+
+  res.json(group);
+});
+
+
+
+groupRoutes.get("/friend/expenses", firebaseAuth, async (req, res) => {
+  try {
+    const { uid } = req.user;
+    const { email } = req.query;
+
+    if (!email) return res.status(400).json({ message: "Friend email required" });
+
+    const groups = await groupModel.find({
+      "members.uid": uid,
+      "members.email": email,
+    });
+
+    res.status(200).json({ friend: email,  groups,  });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch friend data" });
+  }
+});
+
+
+
 module.exports = groupRoutes;

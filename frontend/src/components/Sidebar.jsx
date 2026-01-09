@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import {UserRound, Users,Handshake} from "lucide-react"
 
-export default function Sidebar() {
+export default function Sidebar({ onGroupSelect, onFriendSelect }) {
     const [groups, setGroups] = useState([]);
     const [friends, setFriends] = useState([]);
 
@@ -14,19 +14,13 @@ export default function Sidebar() {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get(
-          "http://localhost:8000/group/getGroup",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await axios.get( "http://localhost:8000/group/getGroup",{
+            headers: { Authorization: `Bearer ${token}`,},
+          });
 
         const groupsData = res.data.groups;
         setGroups(groupsData);
 
-        // ✅ extract friend NAMES
         const allFriends = groupsData.flatMap(group =>
           group.members.map(member => member.name || member.email)
         );
@@ -44,22 +38,26 @@ export default function Sidebar() {
       <h1 className="text-xl font-bold text-green-600">Splitwise</h1>
 
       <nav className="space-y-2 text-sm">
-        <p className="font-semibold text-gray-500">Dashboard</p>
+        <p className="font-semibold text-gray-500 cursor-pointer hover:text-green-600">Dashboard</p>
         <p className="text-gray-600">Recent activity</p>
         <p className="text-gray-600">All expenses</p>
       </nav>
+
+      <hr />
 
             {/* GROUPS */}
             <div>
             <h3 className="text-xs flex gap-1 font-semibold text-gray-400"><Users size={15}/>GROUPS</h3>
             <ul>
               {groups.map(group => (
-                <li  key={group._id}onClick={() => onGroupSelect(group)} className="cursor-pointer hover:text-green-600" >
-                  {group.name.toUpperCase()}
+                <li  key={group._id} onClick={() => onGroupSelect(group)} className="cursor-pointer hover:text-green-600" >
+                  {group.name?.split("@")[0].replace(".", " ").replace(/\b\w/g, char => char.toUpperCase())}
                 </li>
               ))}
             </ul>
            </div>
+
+           <hr />
 
            {/* FRIENDS */}
            <div>

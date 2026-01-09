@@ -7,40 +7,10 @@ import ExpenseList from "../components/ExpenseList";
 
 
 
-export default function Dashboard({ balances, onPay }) {
+export default function Dashboard() {
 
-
-  const [expense, setExpense] = useState(false);
-  const [description, setDescription] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [splitType, setSplitType] = useState("EQUAL");
-  const [paidBy, setPaidBy] = useState("");
-  const [splits, setSplits] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [selectedFriend, setSelectedFriend] = useState(null);
-
-  const handleSplitChange = (index, value) => {
-    const updated = [...splits];
-    updated[index].value = value;
-    setSplits(updated);
-  };
-
-
-
-  const handleMemberChange = (index, field, value) => {
-    const updated = [...members];
-    updated[index][field] = value;
-    setMembers(updated);
-  };
-
-  const addExpense = () => {
-    setExpense(!expense)
-    console.log("Open Add Expense Modal");
-  };
-
-  const handleSettleUp = () => {
-     console.log("Open Add settle up Modal");
-  }
 
 
 
@@ -48,7 +18,9 @@ export default function Dashboard({ balances, onPay }) {
    <div className="min-h-screen bg-gray-100 flex justify-center p-8">
 
    <div className="min-h-screen flex bg-gray-100">
-      <Sidebar onGroupSelect={(group) => {
+     <Sidebar
+             onGroupSelect={(group) => {
+             console.log("Clicked group:", group);
                setSelectedGroup(group);
                setSelectedFriend(null);
              }}
@@ -57,9 +29,12 @@ export default function Dashboard({ balances, onPay }) {
                setSelectedGroup(null);
              }}
            />
-     <MainContent selectedGroup={selectedGroup} selectedFriend={selectedFriend} />
+
+      <MainContent
+             selectedGroup={selectedGroup}
+             selectedFriend={selectedFriend}
+           />
      <BalancePanel />
-     <ExpenseList />
    </div>
 
    </div>
