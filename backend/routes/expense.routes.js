@@ -45,20 +45,15 @@ ExpenseRouter.post("/addExpense", firebaseAuth, async (req, res) => {
 });
 
 
-/**
- * GET EXPENSES
- */
-ExpenseRouter.get("/", firebaseAuth, async (req, res) => {
+
+ExpenseRouter.get("/getGroup", firebaseAuth, async (req, res) => {
   try {
     const { groupId } = req.query;
     const uid = req.user.uid;
 
-    const query = {
-      participants: uid,
-    };
+    const query = { participants: uid, };
 
     if (groupId) query.groupId = groupId;
-
     const expenses = await Expense.find(query).sort({ createdAt: -1 });
 
     res.json({ expenses });
@@ -67,6 +62,57 @@ ExpenseRouter.get("/", firebaseAuth, async (req, res) => {
   }
 });
 
+
+/**
+ * UPDATE EXPENSE
+ */
+ExpenseRouter.put("/:expenseId", firebaseAuth, async (req, res) => {
+  try {
+    const { expenseId } = req.params;
+    const uid = req.user.uid;
+
+    const expense = await Expense.findById(expenseId);
+    if (!expense) {
+      return res.status(404).json({ message: "Expense not found" });
+    }
+
+    if (expense.createdBy !== uid && expense.paidBy !== uid) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    Object.assign(expense, req.body);
+    await expense.save();
+
+    res.json({ message: "Expense updated", expense });
+  } catch (err) {
+    res.status(500).json({ message: "Update failed" });
+  }
+});
+
+
+/**
+ * DELETE EXPENSE
+ */
+ExpenseRouter.delete("/:expenseId", firebaseAuth, async (req, res) => {
+  try {
+    const { expenseId } = req.params;
+    const uid = req.user.uid;
+
+    const expense = await Expense.findById(expenseId);
+    if (!expense) {
+      return res.status(404).json({ message: "Expense not found" });
+    }
+
+    if (expense.createdBy !== uid && expense.paidBy !== uid) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    await expense.deleteOne();
+    res.json({ message: "Expense deleted" });
+  } catch (err) {
+    res.status(500).json({ message: "Delete failed" });
+  }
+});
 
 
 module.exports = ExpenseRouter

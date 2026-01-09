@@ -1,14 +1,17 @@
 const mongoose = require("mongoose");
 
-const settlementSchema = new mongoose.Schema({
+const settlementSchema = new mongoose.Schema(
+  {
+    from: { type: String, required: true }, // uid
+    to: { type: String, required: true },
+    amount: { type: Number, required: true },
+    groupId: { type: String },
+    settledBy: { type: String, required: true }, // who paid
+  },
+  { timestamps: true }
+);
 
-       groupId: {  type: mongoose.Schema.Types.ObjectId, ref: "Group",  default: null,},
-       from: { type: String,  required: true,},
-       to: { type: String, required: true,},
-       amount: { type: Number,required: true, min: 0,},
-       recordedBy: { type: String, required: true,},
 
-}, { timestamps: true });
 
 const settlementModel = mongoose.model("Settlement", settlementSchema);
 module.exports = settlementModel;

@@ -19,6 +19,8 @@ app.use(cors({
 
 app.use("/api" , userAuthRoutes)
 app.use("/group" , groupRoutes);
+app.use("/api/expenses", require("./routes/expense.routes"));
+
 
 
 mongoose.connect(process.env.MONGODB_URL)
