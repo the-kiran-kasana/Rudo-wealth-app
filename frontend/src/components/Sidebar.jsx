@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {UserRound, Users,Handshake} from "lucide-react"
 
 export default function Sidebar() {
-   const [groups, setGroups] = useState([]);
+    const [groups, setGroups] = useState([]);
     const [friends, setFriends] = useState([]);
 
     useEffect(() => {
@@ -48,41 +49,40 @@ export default function Sidebar() {
         <p className="text-gray-600">All expenses</p>
       </nav>
 
-      {/* GROUPS */}
-      <div>
-             <h3 className="text-xs font-semibold text-gray-400">GROUPS</h3>
-             <ul className="mt-2 space-y-1">
-               {groups.map(group => (
-                 <li key={group._id} className="text-gray-700">
-                   {group.name}
-                 </li>
-               ))}
-             </ul>
+            {/* GROUPS */}
+            <div>
+            <h3 className="text-xs flex gap-1 font-semibold text-gray-400"><Users size={15}/>GROUPS</h3>
+            <ul>
+              {groups.map(group => (
+                <li  key={group._id}onClick={() => onGroupSelect(group)} className="cursor-pointer hover:text-green-600" >
+                  {group.name.toUpperCase()}
+                </li>
+              ))}
+            </ul>
            </div>
 
            {/* FRIENDS */}
            <div>
-             <h3 className="text-xs font-semibold text-gray-400 mt-4">FRIENDS</h3>
-             <ul className="mt-2 space-y-1">
-               {friends.map((friend, index) => (
-                 <li key={index} className="text-gray-600">
-                   {friend}
-                 </li>
-               ))}
-             </ul>
+             <h3 className="text-xs font-semibold flex gap-1 text-gray-400 mt-10"><Handshake size={15}/>FRIENDS</h3>
+            <ul>
+              {friends.map((friend, index) => (
+                <li key={index} onClick={() => onFriendSelect(friend)} className="cursor-pointer gap-4 hover:text-green-600 flex" >
+                   {friend?.charAt(0).toUpperCase() + friend?.slice(1)}
+                    <hr />
+                </li>
+              ))}
+
+            </ul>
            </div>
 
 
 
       <div className="pt-4">
-        <input
-          placeholder="Enter email"
-          className="w-full px-2 py-1 border rounded text-sm"
-        />
-        <button className="mt-2 w-full bg-green-500 text-white py-1 rounded text-sm">
-          Invite friend
-        </button>
+        <input placeholder="Enter email" className="w-full px-2 py-1 border rounded text-sm"/>
+        <button className="mt-2 w-full bg-green-500 text-white py-1 rounded text-sm"> Invite friend  </button>
       </div>
+
+
     </aside>
   );
 }

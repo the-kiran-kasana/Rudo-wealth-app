@@ -16,6 +16,8 @@ export default function Dashboard({ balances, onPay }) {
   const [splitType, setSplitType] = useState("EQUAL");
   const [paidBy, setPaidBy] = useState("");
   const [splits, setSplits] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [selectedFriend, setSelectedFriend] = useState(null);
 
   const handleSplitChange = (index, value) => {
     const updated = [...splits];
@@ -45,10 +47,17 @@ export default function Dashboard({ balances, onPay }) {
  return (
    <div className="min-h-screen bg-gray-100 flex justify-center p-8">
 
-
    <div className="min-h-screen flex bg-gray-100">
-     <Sidebar />
-     <MainContent />
+      <Sidebar onGroupSelect={(group) => {
+               setSelectedGroup(group);
+               setSelectedFriend(null);
+             }}
+             onFriendSelect={(friend) => {
+               setSelectedFriend(friend);
+               setSelectedGroup(null);
+             }}
+           />
+     <MainContent selectedGroup={selectedGroup} selectedFriend={selectedFriend} />
      <BalancePanel />
      <ExpenseList />
    </div>
